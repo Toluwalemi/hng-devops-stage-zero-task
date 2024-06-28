@@ -10,26 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check out the repository
-      uses: actions/checkout@v2
+      - name: Check out the repository
+        uses: actions/checkout@v2
 
-    - name: Log in to Azure Container Registry
-      uses: azure/docker-login@v1
-      with:
-        login-server: <your_registry>.azurecr.io
-        username: ${{ secrets.AZURECR_USERNAME }}
-        password: ${{ secrets.AZURECR_PASSWORD }}
-
-    - name: Build and push Docker image
-      run: |
-        docker-compose build
-        docker-compose push
-
-    - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: <your_app_name>
-        slot-name: production
-        images: |
-          <your_registry>.azurecr.io/fastapi_app:latest
-          <your_registry>.azurecr.io/nginx_server:latest
+      - name: Deploy to AWS EC2
+        env:
+          AWS_IP: ${{ secrets.AWS_IP }}
+          AWS_USER: ${{ secrets.AWS_USER }}
+          AWS_KEY: ${{ secrets.AWS_KEY }}
+        run: |
+          ssh -i $AWS_KEY $AWS_USER@$AWS_IP "cd /home/$AWS_USER/projects/hng-devops-stage-zero-task && git pull origin main && sudo docker-compose build && sudo docker-compose up -d"
