@@ -9,8 +9,3 @@ app.mount("/", StaticFiles(directory="static", html=True), name="static")
 @app.get("/api")
 async def root():
     return {"message": "Hello World"}
-
-
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
