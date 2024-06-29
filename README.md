@@ -25,4 +25,5 @@ To deploy this project locally or on a cloud server (AWS EC2 or GCP VM), follow 
    docker-compose up -d
 
 View the Project
-View the deployed website: http://ec2-3-71-88-44.eu-central-1.compute.amazonaws.com/
+View the deployed website (EC2): http://ec2-3-71-88-44.eu-central-1.compute.amazonaws.com/
+View the deployed website (GCE): http://34.172.125.68/
