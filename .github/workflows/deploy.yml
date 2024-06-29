@@ -37,9 +37,9 @@ jobs:
 
       - name: Deploy to Google Compute Engine
         env:
-          AWS_IP: ${{ secrets.GCP_IP }}
-          AWS_USER: ${{ secrets.GCP_USER }}
-          AWS_KEY: ${{ secrets.GCP_KEY }}
+          GCP_IP: ${{ secrets.GCP_IP }}
+          GCP_USER: ${{ secrets.GCP_USER }}
+          GCP_KEY: ${{ secrets.GCP_KEY }}
         run: |
           ssh -o StrictHostKeyChecking=no -i gce-key.pem $GCP_USER@$GCP_IP "cd /home/$GCP_USER/projects/hng-devops-stage-zero-task && 
           git pull origin main && 
