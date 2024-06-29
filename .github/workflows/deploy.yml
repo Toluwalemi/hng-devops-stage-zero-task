@@ -13,22 +13,10 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v2
 
-      - name: Verify TEST_KEY
-        env:
-          TEST_KEY: ${{ secrets.TEST_KEY }}
-        run: |
-          # Ensure the secret is set
-          if [ -z "$TEST_KEY" ]; then
-            echo "TEST_KEY is not set"
-            exit 1
-          fi
-          # Echo the first 5 characters of the TEST_KEY
-          echo "${TEST_KEY:0:5}"
-
       - name: Deploy to AWS EC2
         env:
           AWS_IP: ${{ secrets.AWS_IP }}
           AWS_USER: ${{ secrets.AWS_USER }}
           AWS_KEY: ${{ secrets.AWS_KEY }}
         run: |
-          ssh -i $AWS_KEY $AWS_USER@$AWS_IP "cd /home/$AWS_USER/projects/hng-devops-stage-zero-task && git pull origin main && sudo docker-compose build && sudo docker-compose up -d"
+          ssh -i /home/$AWS_USER/certs/$AWS_KEY $AWS_USER@$AWS_IP "cd /home/$AWS_USER/projects/hng-devops-stage-zero-task && git pull origin main && sudo docker-compose build && sudo docker-compose up -d"
