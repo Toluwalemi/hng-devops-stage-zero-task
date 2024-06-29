@@ -13,6 +13,18 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v2
 
+      - name: Verify TEST_KEY
+        env:
+          TEST_KEY: ${{ secrets.TEST_KEY }}
+        run: |
+          # Ensure the secret is set
+          if [ -z "$TEST_KEY" ]; then
+            echo "TEST_KEY is not set"
+            exit 1
+          fi
+          # Echo the first 5 characters of the TEST_KEY
+          echo "${TEST_KEY:0:5}"
+
       - name: Deploy to AWS EC2
         env:
           AWS_IP: ${{ secrets.AWS_IP }}
